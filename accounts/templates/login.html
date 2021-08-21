@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title%}صفحه ورود{%endblock%}
+
+
+{%block body%}
+<form action='' method="post" novalidate><br> <br>
+   {% csrf_token %}
+   
+   {{form.idcart}}<br> <br>
+   {{form.password}}<br><br>
+    <button type="submit" > ورود به سامانه</button>
+
+</form>
+
+{%endblock%}

@@ -1,0 +1,31 @@
+from django.contrib import admin
+from django.contrib.auth.forms import UserCreationForm
+from .models import *
+from .forms import *
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import Group
+
+class UserAdmin(BaseUserAdmin):
+    form=UserchangeForm
+    add_form=UserCreationForm
+
+    list_display=('idcart','first_name','last_name','phone','shift')
+    list_filter=('idcart','is_active')
+    fieldsets=((User, {'fields': ('idcart','first_name','last_name','shift', 'password')}),
+    ('Personal info',{'fields':('is_admin',)}),
+    ('permasion',{'fields':('is_active',)}),
+    ('permasion',{'fields':('is_authe',)}),
+    ('permasion',{'fields':('is_manager',)})
+    )
+    add_fieldsets = (
+        (None, {
+            
+            'fields': ( 'first_name', 'last_name','idcart','email','phone','address','date','shift', 'password1','password2'),
+        }),
+    )
+    search_fields=('idcart', )
+    ordering=('idcart',)
+    filter_horizontal=()
+
+admin.site.register(User,UserAdmin)    
+admin.site.unregister(Group)

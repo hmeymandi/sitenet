@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{%block body%}
+<p>report forms</p>
+
+<form method='post'>
+{% csrf_token %}
+    {{form.subject}}<br><br>
+
+    {{form.report}}<br><br>
+    {{form.date}}<br><br>
+    {{form.user}}<br><br>
+    {{form.shift}}<br><br>
+   
+    {{form.acepet }}<br><br>
+
+    
+
+
+    
+<button type="submit">ارسال گزارش</button>
+</form >
+
+
+{%endblock %}

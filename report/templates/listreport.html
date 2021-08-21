@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}
+  صفحه گزارشات
+{% endblock title %}
+
+
+{% block body %}
+<div class="bg-info clearfix">
+{% for i in report %}
+  
+ <div class="bg-info clearfix">
+  <button type="button" class="btn btn-secondary float-left">{{i.subject}}</button>
+  <button type="button" class="btn btn-secondary float-right">{{i.subject}}</button>
+</div>
+</div>
+{% endfor %}
+<table class="table">
+  <thead>
+    <tr  class="table-dark" >
+      <th scope="col">عنوان</th>
+         <th scope="col">شماره گزارش</th>      
+      <th scope="col">شیفت</th>
+      <th scope="col">تاریخ</th>
+      <th scope="col">نام کاربر</th>
+      <th scope='col'> وضیعت</th>
+    </tr>
+  </thead>
+  {% for i in report %}
+  
+    <tbody>
+      
+      {% if 'تایید نشده' in i.acepet%}
+     
+      <tr class='table-danger'>
+       
+      <td>{{i.subject}} </td> 
+    <td>{{i.id}} </td> 
+      <td>{{i.shift}}</td>
+      <td>{{i.date}}</td>
+      <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+      <td>{{i.acepet}}</td>
+     
+    </tr>
+
+    {% elif 'تایید نهایی' in i.acepet%}
+    <tr class='table-success' >
+    <td > <a href="{{i.get_absolute_url}}"> {{i.subject}}</a>  </td> 
+    <td>{{i.id}}</td>
+    <td>{{i.subject}} </td> 
+
+    <td>{{i.date}}</td>
+    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+    <td>{{i.acepet}}</td>
+  </tr>
+  {% elif 'تایید سر شیفت' in i.acepet%}
+  <tr class='table-warning' >
+  <td >{{i.subject}}</td> 
+  <td>{{i.id}} </td> 
+  <td>{{i.shift}}</td>
+  <td>{{i.date}}</td>
+  <td>{{i.user.first_name}}{{i.user.last_name}}</td>
+  <td>{{i.acepet}}</td>
+</tr>
+
+{%endif%}
+      
+{% endfor %}
+
+<nav aria-label="...">
+  <ul class="pagination">
+  {% if report.has_previous  %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{report.previous_page_number}}" tabindex="-1">صفحه قبلی</a>
+    </li>
+     <li class="page-item">
+      <a class="page-link" href="?page={{report.previous_page_number}}" >{{report.previous_page_number}}</a>
+    </li>
+    {% endif %}
+    
+   
+
+    <li class="page-item">
+      <a class="page-link" href="?page={{report.number}}">{{report.number}}</a>
+    </li>
+   
+      {% if report.has_next %}
+    <li class="page-item">
+
+      <a class="page-link" href="?page={{report.next_page_number}}">صفحه بعدی</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock body %}

@@ -1,0 +1,15 @@
+{% load static%}
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+ <head>
+      <title>{%block title%} سامانه جامع نت{%endblock%}</title>
+    
+<body>
+{% include "navbar.html" %}<br>
+{% include "msg.html" %}
+    {% block body %}
+      
+    {% endblock %}
+</body>
+
+</html>
