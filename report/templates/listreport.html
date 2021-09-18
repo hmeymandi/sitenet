@@ -1,95 +1,61 @@
 {% extends "base.html" %}
-{% block title %}
-  صفحه گزارشات
-{% endblock title %}
+
+{% block titel%}گزارشات{% endblock%}
 
 
-{% block body %}
-<div class="bg-info clearfix">
-{% for i in report %}
+{% block main %}
   
- <div class="bg-info clearfix">
-  <button type="button" class="btn btn-secondary float-left">{{i.subject}}</button>
-  <button type="button" class="btn btn-secondary float-right">{{i.subject}}</button>
-</div>
-</div>
-{% endfor %}
-<table class="table">
-  <thead>
-    <tr  class="table-dark" >
-      <th scope="col">عنوان</th>
-         <th scope="col">شماره گزارش</th>      
-      <th scope="col">شیفت</th>
-      <th scope="col">تاریخ</th>
-      <th scope="col">نام کاربر</th>
-      <th scope='col'> وضیعت</th>
-    </tr>
-  </thead>
-  {% for i in report %}
-  
-    <tbody>
-      
-      {% if 'تایید نشده' in i.acepet%}
-     
-      <tr class='table-danger'>
-       
-      <td>{{i.subject}} </td> 
-    <td>{{i.id}} </td> 
-      <td>{{i.shift}}</td>
-      <td>{{i.date}}</td>
-      <td>{{i.user.first_name}}{{i.user.last_name}}</td>
-      <td>{{i.acepet}}</td>
-     
-    </tr>
 
-    {% elif 'تایید نهایی' in i.acepet%}
-    <tr class='table-success' >
-    <td > <a href="{{i.get_absolute_url}}"> {{i.subject}}</a>  </td> 
-    <td>{{i.id}}</td>
-    <td>{{i.subject}} </td> 
 
-    <td>{{i.date}}</td>
-    <td>{{i.user.first_name}}{{i.user.last_name}}</td>
-    <td>{{i.acepet}}</td>
-  </tr>
-  {% elif 'تایید سر شیفت' in i.acepet%}
-  <tr class='table-warning' >
-  <td >{{i.subject}}</td> 
-  <td>{{i.id}} </td> 
-  <td>{{i.shift}}</td>
-  <td>{{i.date}}</td>
-  <td>{{i.user.first_name}}{{i.user.last_name}}</td>
-  <td>{{i.acepet}}</td>
-</tr>
-
-{%endif%}
-      
-{% endfor %}
-
-<nav aria-label="...">
-  <ul class="pagination">
-  {% if report.has_previous  %}
-    <li class="page-item">
-      <a class="page-link" href="?page={{report.previous_page_number}}" tabindex="-1">صفحه قبلی</a>
-    </li>
-     <li class="page-item">
-      <a class="page-link" href="?page={{report.previous_page_number}}" >{{report.previous_page_number}}</a>
-    </li>
-    {% endif %}
+<div class="row">
+    <div class="col-12">
+      <div class="card">
+        
+        <!-- /.card-header -->
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th> شماره گزارش</th>
+                <th>موضوع</th>
+                <th>نام کاربر</th>
+                <th>تاریخ</th>
+                <th>شیفت</th>
+                <th>وضیعت</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {% for reports in report  %}
     
-   
+                  
+                
+                <td>{{reports.id}}</td>
+                <td>  <a href="{{reports.get_absolute_url1}}">{{reports.subject}}</a></td>
+                <td>{{reports.user.first_name}} {{reports.user.last_name}}</td>
+                <td>{{reports.persian_number}}</td>
+                <td>{{reports.shift}}</td>
+                <td>
+                  {% if 'تایید نشده'  in reports.acepet%}
+                    <span class='badge badge-danger'> تایید نشده</span>
+                  {%elif 'تایید سر شیفت' in reports.acepet%}
+                  <span class='badge badge-warning'>تایید سر شیفت</span>
+                  {%else%}
+                  <span class='badge badge-success'>تایید نهایی</span>
 
-    <li class="page-item">
-      <a class="page-link" href="?page={{report.number}}">{{report.number}}</a>
-    </li>
-   
-      {% if report.has_next %}
-    <li class="page-item">
+                  {% endif %}
 
-      <a class="page-link" href="?page={{report.next_page_number}}">صفحه بعدی</a>
-    </li>
-    {% endif %}
-  </ul>
-</nav>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
 
-{% endblock body %}
+
+  {% endblock main %}

@@ -1,4 +1,5 @@
 from django import forms
+from django.forms.forms import Form
 from .models import User
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -37,5 +38,5 @@ class UserchangeForm(forms.ModelForm):
         return self.initial['password']
 
 class Userloginform(forms.Form):
-    idcart=forms.CharField(label='شماره ملی',widget=forms.TextInput(attrs={'placeholder':'لطفا شماره ملی خود را وارید کنید'}))
-    password=forms.CharField(label='رمز عبور',widget=forms.PasswordInput(attrs={'placeholder':'لطفا رمز عبور خود را وارد کنید'}))
+    idcart=forms.CharField()
+    password=forms.CharField(label='رمز عبور',widget=forms.PasswordInput)
