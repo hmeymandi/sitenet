@@ -36,16 +36,17 @@ class User(AbstractBaseUser):
     last_name=models.CharField(max_length=100)
     idcart=models.CharField(max_length=10,unique=True)
     phone=models.CharField(max_length=11)
-    email=models.EmailField(blank=True)
+    email=models.EmailField(blank=True,unique=True)
     address=models.CharField(max_length=250)
     shift=models.CharField(max_length=10,choices=shift_status,blank=True,null=True)
     date=models.DateTimeField(null=True,blank=True)
     
     
-    is_active=models.BooleanField(default=True)
-    is_admin=models.BooleanField(default=False)
-    is_authe=models.BooleanField(default=True)
-    is_manager=models.BooleanField(default=False)
+    is_active=models.BooleanField(default=True,verbose_name='کاربر عادی')
+    is_admin=models.BooleanField(default=False,verbose_name='مدیر')
+    is_authe=models.BooleanField(default=True,verbose_name='سرشیفت')
+    is_manager=models.BooleanField(default=False,verbose_name='سرپرست')
+    is_nazer=models.BooleanField(default=False,verbose_name='ناظر')
     
     USERNAME_FIELD='idcart'
     REQUIRED_FIELDS=['first_name','last_name','phone','email','address','shift','date']

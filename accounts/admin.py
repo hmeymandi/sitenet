@@ -12,10 +12,11 @@ class UserAdmin(BaseUserAdmin):
     list_display=('idcart','first_name','last_name','phone','shift')
     list_filter=('idcart','is_active')
     fieldsets=((User, {'fields': ('idcart','first_name','last_name','shift', 'password')}),
-    ('Personal info',{'fields':('is_admin',)}),
-    ('permasion',{'fields':('is_active',)}),
-    ('permasion',{'fields':('is_authe',)}),
-    ('permasion',{'fields':('is_manager',)})
+    ('وضیعت کاربر',{'fields':('is_admin','is_nazer','is_active','is_authe','is_manager')}),
+    #('permasion',{'fields':('is_active',)}),
+    #('permasion',{'fields':('is_authe',)}),
+    #('permasion',{'fields':('is_manager',)}),
+    #('Personal info',{'fields':('is_nazer',)})
     )
     add_fieldsets = (
         (None, {

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load jalali_tags %}
+
+
+
+{% block titel %}
+ سیستم مرخصی
+{% endblock titel %}
+
+
+{% block main %}
+
+<!-- OR -->
+<!-- loading by form (if used AdminJalaliDateWidget) -->
+{{ form.media }}
+
+<div class="col-md-12">
+    <!-- general form elements -->
+    <div class="card card-primary">
+      <div class="card-header">
+        <h3 class="card-title mb-0 float-left">ارسال گزارش</h3>
+      </div>
+     
+
+  
+<form method="post" enctype="application/x-www-form-urlencoded">
+    {% csrf_token %}
+    <div class="row">
+      
+      <div class="col-6">
+
+
+        {{ form.user|as_crispy_field }}
+        
+
+      </div>
+      <div class='col-6'>
+        {{ form.type|as_crispy_field }}
+      </div>
+     
+     
+        <div class='col-6'>
+        {{ form.time1|as_crispy_field }}
+        {{ form.accept|as_crispy_field }}
+        
+        </div>
+        <div class='col-6'>
+        {{ form.time2|as_crispy_field }}
+        {% if request.user.is_admin  or request.user.nazer  %}
+        {{ form.user1|as_crispy_field }}
+        {% endif %}
+      
+        </div>
+        
+        </div>
+               
+    
+        
+   
+        <button type="submit" class='btn btn-success'>ارسال مرخصی</button>
+      </div>
+     
+</div>
+    
+</form> 
+{% endblock main %}
+

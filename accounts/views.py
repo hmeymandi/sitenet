@@ -1,18 +1,19 @@
 from django.contrib.messages.api import success
 from django.shortcuts import render,redirect
 from .forms import *
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import authenticate,login as auth_login,logout as django_logout
 from django.contrib import messages
+from report.decorators import unauthanticate
 
-
-def home(request):
-    return render(request,'home.html')
-
+@unauthanticate
 def login(request):
-    if request.user.is_authenticated:
-        return redirect("account:home")
-    else:
-        form=Userloginform()
+    #if request.user.is_authenticated:
+        #return redirect("account:home")
+
+    
+    #else:
+        #form=Userloginform()
         if request.method=='POST':
             form=Userloginform(request.POST) 
             if form.is_valid():
@@ -29,7 +30,7 @@ def login(request):
         else:
             form=Userloginform()
         
-    return render(request,'login.html',{'form':form})
+        return render(request,'login.html',{'form':form})
 
 
 def logout(request):
