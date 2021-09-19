@@ -7,6 +7,8 @@ from django.views.generic import CreateView,UpdateView
 from .form import Restform
 from .mixin import *
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -27,6 +29,10 @@ class Restupdate(AccsesMixin,FieldMixin,UpdateView):
    
     template_name='rest.html'
 
+    def get_success_url(self):
+        return reverse('rest:myrest')
+
+@login_required
 def rest(request):
 
     if request.user.is_admin or request.user.is_nazer\

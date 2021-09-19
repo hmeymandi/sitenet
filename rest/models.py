@@ -45,6 +45,7 @@ class Restmodel(models.Model):
     def persian_number(self):
         time2str=str(datetime2jalali(self.time1))
         
+        
         number={
             '0':'۰',
             '1':'۱',
@@ -60,9 +61,32 @@ class Restmodel(models.Model):
 
         for i,j in number.items():
             time2str=time2str.replace(i,j)
+           
         
-            
+        
         return time2str
+    def persian_number1(self):
+  
+        time1str=str(datetime2jalali(self.time2))
+        
+        number={
+            '0':'۰',
+            '1':'۱',
+            '2':'۲',
+            '3':'۳',
+            '4':'۴',
+            '5':'۵',
+            '6':'۶',
+            '7':'۷',
+            '8':'۸',
+            '9':'۹',
+       }
+
+        for i,j in number.items():
+            time1str=time1str.replace(i,j)
+        
+        
+        return time1str   
     @property
     def timeavg(self):
         time=str(self.time2 - self.time1)
@@ -84,6 +108,7 @@ class Restmodel(models.Model):
         
             
         return time
+
 class Repmodel(models.Model):
     class Meta:
         verbose_name=' سیستم قطعات معیوب'
