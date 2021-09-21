@@ -6,6 +6,9 @@ from django.forms import forms
 from report.models import *
 from django.shortcuts import redirect
 from django.db.models.signals import m2m_changed
+from django.forms.widgets import PasswordInput, TimeInput
+from django.forms import *
+
 
 
 class FieldMixin():

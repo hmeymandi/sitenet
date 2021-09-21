@@ -7,9 +7,8 @@ from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
 
 
 
-class Restform(forms.ModelForm):
-    class Meta:
-        model=Restmodel
-        fields=['user','user1','type','time1','time2','accept']
+class Restform(forms.Form):
+  
+        time1=forms.DateTimeField(widget=AdminJalaliDateWidget)
 
-   
+    

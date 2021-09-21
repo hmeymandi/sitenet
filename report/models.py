@@ -7,8 +7,13 @@ from django.db.models.fields import CharField
 from django.urls import reverse
 from jalali_date import datetime2jalali,date2jalali
 from django.contrib.contenttypes.fields import GenericRelation
-from jalali_date.fields import JalaliDateField, SplitJalaliDateTimeField
+from jalali_date.fields import JalaliDateField, JalaliDateTimeField, SplitJalaliDateTimeField
 from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
+import jdatetime
+from django.db import models
+from django_jalali.db import models as jmodels
+
+
 
 
 
@@ -52,11 +57,11 @@ class Reportmodel(models.Model):
     shift_status=(('شیفت A','شیفت A'),
     ('شیفت B','شیفت B'),
     ('شیفت C','شیفت C'),)
-
+   
     subject=models.CharField(max_length=100,verbose_name='موضوع')
     categ=models.ManyToManyField(Informationmodel,verbose_name='دسته بندیُ',related_name='info')
     report=models.TextField(verbose_name='گزارش')
-    date=models.DateTimeField(default=timezone.now,verbose_name='تاریخ ثبت',)
+    date=jmodels.jDateTimeField(default=datetime.now().isoformat(" ","minutes"),verbose_name='تاریخ ثبت',)
     user=models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='نام کاربری')
     shift=models.CharField(max_length=50,choices=shift_status,verbose_name='شیفت',null=True)
     acepet=models.CharField(max_length=30,choices=acepet_status,default='تایید نشده',verbose_name='وضیعت')
@@ -77,10 +82,13 @@ class Reportmodel(models.Model):
         return '{} {}'.format(self.subject, self.user)
 
     
- 
+    
     
     def persian_number(self):
-        time2str=str(datetime2jalali(self.date))
+        
+        datetime2jalali=str(self.date.strftime("%Y-%m-%d %X"))
+        
+        
         number={
             '0':'۰',
             '1':'۱',
@@ -95,8 +103,12 @@ class Reportmodel(models.Model):
        }
 
         for i,j in number.items():
-            time2str=time2str.replace(i,j)
+            datetime2jalali=datetime2jalali.replace(i,j)
+        
             
-        return time2str
+        return datetime2jalali
 
-   
+    def timejalali(self):
+        time=jdatetime.datetime(self.date)
+
+        return time

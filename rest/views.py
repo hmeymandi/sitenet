@@ -1,19 +1,24 @@
+from django.contrib.admin.widgets import AdminRadioSelect
 from django.db.models import manager
 from django.shortcuts import redirect, render
 from django.shortcuts import HttpResponse
+from jalali_date.fields import JalaliDateField, JalaliDateTimeField
 from .models import *
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView,UpdateView
-from .form import Restform
+from django import forms
 from .mixin import *
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
+
+
 
 
 # Create your views here.
 
 
-class Restcreate(LoginRequiredMixin,FormValid,FieldMixin,CreateView):
+class Restcreate(LoginRequiredMixin,Jalali2date,FormValid,FieldMixin,CreateView):
     model=Restmodel
 
     template_name='rest.html'
@@ -21,6 +26,8 @@ class Restcreate(LoginRequiredMixin,FormValid,FieldMixin,CreateView):
     #form_class=Restform
     def get_success_url(self):
         return reverse('rest:myrest')
+    
+    
 
 
 

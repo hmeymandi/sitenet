@@ -11,6 +11,7 @@ from .decorators import mix, unauthanticate
 from django.contrib.auth.decorators import login_required
 from .forms import Reportform
 from .forms import Informationmodel
+from django.forms import *
 #
 @login_required
 def listreport(request,):
@@ -59,6 +60,14 @@ class ReportCreate(LoginRequiredMixin,FormValidMixin,FieldMixin,CreateView):
     model=Reportmodel
    #fields=['subject','categ','slug','date','report','shift','user','acepet']
     template_name='reportform.html'
+    
+    def get_form(self, form_class=None):
+        form = super().get_form( form_class)
+        
+        form.fields['date'].disabled=True
+        
+        return form    
+
 
 class Reportupdate(FieldUpdateMixin,FieldMixin,UpdateView):
     model=Reportmodel
