@@ -1,5 +1,11 @@
+from django.contrib.admin.widgets import AdminTimeWidget
+from django.db.models.fields import *
+from django.forms.widgets import PasswordInput, TimeInput
 from django.http.response import Http404
 from rest.models import *
+from jalali_date.widgets import AdminJalaliDateWidget, AdminSplitJalaliDateTime
+from jalali_date.fields import JalaliDateField, JalaliDateTimeField
+from django.forms.fields import *
 
 
 class FieldMixin():
@@ -46,3 +52,12 @@ class AccsesMixin():
 
         else:
             raise Http404 ('شما دسترسی به این بحش را ندارید')
+
+class Jalali2date():
+    def get_form(self, form_class=None):
+        form = super().get_form( form_class)
+        
+        form.fields['time1'] =TimeField(label=('شروع مرحضی'),widget=TimeInput)
+        form.fields['time2']=TimeField(label=('پایان مرحضی'),widget=TimeInput)
+        return form    
+

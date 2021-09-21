@@ -1,12 +1,17 @@
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth import get_user_model as user_model
 from django.db.models.aggregates import Avg
 from django.http import request
+from jdatetime import datetime,date
+import jdatetime
+from jdatetime.jalali import JalaliToGregorian
 from accounts.models import User
 from django.utils import timezone
 from django.db.models import F
 from django.db.models.deletion import CASCADE
 from jalali_date import datetime2jalali,date2jalali
+
 
 
 
@@ -29,22 +34,25 @@ class Restmodel(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='نام جایگزین')
     user1=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user',verbose_name='نام کاربری',null=True)
     
-    time1=models.DateTimeField(verbose_name='شروع مرخصی')
-    time2=models.DateTimeField(verbose_name='پایان مرخصی')
+    time1=models.TimeField(verbose_name='شروع مرخصی')
+    time2=models.TimeField(verbose_name='پایان مرخصی')
 
-    type=models.CharField(max_length=20,choices=type_status,verbose_name='نوع مرخصی')
+    type=models.CharField(max_length=20,default='h',choices=type_status,verbose_name='نوع مرخصی')
     accept=models.CharField(default='در دست بررسی',max_length=30,choices=accept_status,verbose_name='وضیعت')
     timeavg=models.CharField(max_length=250,)
     
+
+
+
+
     def __str__(self):
         
         return '{} {} {}'.format(self.user,self.user1,self.type)
 
-        
+  
 
     def persian_number(self):
-        time2str=str(datetime2jalali(self.time1))
-        
+        datetime2jalali=str(self.time1)
         
         number={
             '0':'۰',
@@ -60,14 +68,14 @@ class Restmodel(models.Model):
        }
 
         for i,j in number.items():
-            time2str=time2str.replace(i,j)
+            datetime2jalali=datetime2jalali.replace(i,j)
            
         
         
-        return time2str
+        return datetime2jalali
     def persian_number1(self):
   
-        time1str=str(datetime2jalali(self.time2))
+        time1str=str(self.time2)
         
         number={
             '0':'۰',
@@ -89,7 +97,16 @@ class Restmodel(models.Model):
         return time1str   
     @property
     def timeavg(self):
-        time=str(self.time2 - self.time1)
+        time=jdatetime.datetime.time(self.time1)
+        time3=jdatetime.datetime.time(self.time2)
+        td1 =jdatetime.date.today()
+        timefinal =str(jdatetime.datetime.combine(td1,time3)-jdatetime.datetime.combine(td1,time))
+        
+
+        
+     
+
+       
         number={
             '0':'۰',
             '1':'۱',
@@ -101,13 +118,16 @@ class Restmodel(models.Model):
             '7':'۷',
             '8':'۸',
             '9':'۹',
+            'd':'ر',
+            'a':'و',
+            'y':'ز',
        }
 
         for i,j in number.items():
-            time=time.replace(i,j)
+            timefinal=timefinal.replace(i,j)
         
             
-        return time
+        return timefinal
 
 class Repmodel(models.Model):
     class Meta:

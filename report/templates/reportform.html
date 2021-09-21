@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load jalali_tags %}
 
 
 {% block titel %}
@@ -29,13 +30,13 @@
       </div>
        
       <div class="col-6">
-        {{ form.slug|as_crispy_field }}
-        {{form.persian_number}}
+        {{form.slug|as_crispy_field }}
+        
         
         
       </div>
         <div class='col-6'>
-        {{ form.date|as_crispy_field }}
+        {{form.date|as_crispy_field}}
         </div>
         <div class="col-12">
         {{ form.report|as_crispy_field }}
