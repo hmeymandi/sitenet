@@ -59,5 +59,7 @@ class Jalali2date():
         
         form.fields['time1'] =TimeField(label=('شروع مرحضی'),widget=TimeInput)
         form.fields['time2']=TimeField(label=('پایان مرحضی'),widget=TimeInput)
+       
+
         return form    
 
