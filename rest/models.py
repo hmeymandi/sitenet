@@ -2,6 +2,7 @@ from datetime import timedelta
 from django.db import models
 from django.contrib.auth import get_user_model as user_model
 from django.db.models.aggregates import Avg
+from django.db.models.fields import BLANK_CHOICE_DASH
 from django.http import request
 from jdatetime import datetime,date
 import jdatetime
@@ -11,6 +12,7 @@ from django.utils import timezone
 from django.db.models import F
 from django.db.models.deletion import CASCADE
 from jalali_date import datetime2jalali,date2jalali
+from django_jalali.db import models as jmodels
 
 
 
@@ -33,10 +35,10 @@ class Restmodel(models.Model):
     
     user=models.ForeignKey(User,on_delete=models.CASCADE,verbose_name='نام جایگزین')
     user1=models.ForeignKey(User,on_delete=models.CASCADE,related_name='user',verbose_name='نام کاربری',null=True)
-    
+    date=jmodels.jDateField(null=True,verbose_name='تاریخ ثبت')
     time1=models.TimeField(verbose_name='شروع مرخصی')
     time2=models.TimeField(verbose_name='پایان مرخصی')
-
+    dateexit=jmodels.jDateField(null=True,verbose_name='مدت مرخصی')
     type=models.CharField(max_length=20,default='h',choices=type_status,verbose_name='نوع مرخصی')
     accept=models.CharField(default='در دست بررسی',max_length=30,choices=accept_status,verbose_name='وضیعت')
     timeavg=models.CharField(max_length=250,)
@@ -135,7 +137,7 @@ class Repmodel(models.Model):
         verbose_name_plural='سیستم قطعات معیوب'
 
     user=models.ForeignKey(User,on_delete=CASCADE,verbose_name='نام کاربری')
-    date=models.DateTimeField(default= timezone.now,verbose_name='تاریخ ثبت')
+    date=jmodels.jDateTimeField(null=True,default= datetime.now,verbose_name='تاریخ ثبت')
     name=models.CharField(max_length=150,verbose_name='نام قطعه')
     station=models.CharField(max_length=50,verbose_name='نام ایستگاه')
     subj=models.CharField(max_length=500,verbose_name='توضیحات')
